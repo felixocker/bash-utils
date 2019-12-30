@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# script builds a pdf from a latex and corresponding bibtex files and opens it
+# Usage: bash texbuild filename
+
+filename="$1"
+texname="$1.tex"
+
+# ensure that filename is not empty
+if [ -z "$filename" ]; then
+  echo "texbuild: empty filename"
+  exit 1
+fi
+# ensure that tex file exists
+if [ ! -f "./$texname" ]; then
+  echo "texbuild: cannot build pdf file for $texname - file does not exists"
+  exit 1
+fi
+
+pdflatex $texname
+bibtex $filename.aux
+pdflatex $texname
+pdflatex $texname
+
+xdg-open $filename.pdf

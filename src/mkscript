@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# create a template for a bash script, a file extension is not automatically appended
+# Usage: bash mkscript sname
+
+sname="$1"
+
+# ensure that sname is not empty
+if [ -z "$sname" ]; then
+  echo "mkscript: missing filename"
+  exit 1
+fi
+
+# ensure that no existing file is overwritten
+if [ -f "./$sname" ]; then
+  echo "mkscript: cannot create script ‘$sname’: File exists"
+  exit 1
+fi
+
+cat<<EOF>$sname
+#!/bin/bash
+
+# - put an explanation here - 
+# Usage bash $sname
+
+
+EOF
+
+# make new file executable
+chmod +x $sname
