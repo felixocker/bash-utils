@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# encrypt file using openssl (key based symmetric ciphers)
+# Usage: bash encrypt plaintext ciphertext
+
+plaintext="$1"
+ciphertext="$2"
+
+openssl enc -in $plaintext -aes-256-cbc -pass stdin > $ciphertext
+echo "make sure you remember your password"

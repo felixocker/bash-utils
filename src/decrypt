@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# decrypt file using openssl (key based symmetric ciphers)
+# Usage: bash decrypt ciphertext plaintext
+
+ciphertext="$1"
+plaintext="$2"
+
+openssl enc -in $ciphertext -d -aes-256-cbc -pass stdin > $plaintext
