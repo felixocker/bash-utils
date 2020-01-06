@@ -6,5 +6,19 @@
 file="$1"
 plain=${file%.enc}
 
+# ensure that input is not empty
+if [ -z "$file" ]; then
+  echo "decrypt: missing input"
+  exit 1
+fi
+
+# ensure that no existing file is overwritten
+if [ -f "./$plain" ]; then
+  echo "decrypt: cannot create ‘$plain’ - file exists"
+  exit 1
+fi
+
+echo "enter password:"
+
 openssl enc -in $file -d -aes-256-cbc -pass stdin > $plain
 rm $file

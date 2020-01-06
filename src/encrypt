@@ -5,6 +5,19 @@
 
 file="$1"
 
+# ensure that input is not empty
+if [ -z "$file" ]; then
+  echo "encrypt: missing input"
+  exit 1
+fi
+
+# ensure that no existing file is overwritten
+if [ -f "./$file.enc" ]; then
+  echo "encrypt: cannot create ‘$file.enc’ - file exists"
+  exit 1
+fi
+
+echo "enter password and make sure to remember it:"
+
 openssl enc -in $file -aes-256-cbc -pass stdin > $file.enc
-echo "make sure you remember your password"
 rm $file
