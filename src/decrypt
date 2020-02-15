@@ -20,5 +20,11 @@ fi
 
 echo "enter password:"
 
-openssl enc -in $file -d -aes-256-cbc -pass stdin > $plain
-rm $file
+var=$((openssl enc -in $file -d -aes-256-cbc -pass stdin > $plain) 2>&1 >/dev/null)
+if [[ $var == *"bad decrypt"* ]]; then
+  echo "decrypt: bad decrypt due to wrong password"
+  rm $plain
+  exit 1
+else
+  rm $file
+fi
