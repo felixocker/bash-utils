@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# create a template for a python script, a file extension is automatically appended
+# Usage: bash mkpy name
+
+sname="$1.py"
+
+# ensure that sname is not empty
+if [ -z "$sname" ]; then
+  echo "mkpy: missing filename"
+  exit 1
+fi
+
+# ensure that no existing file is overwritten
+if [ -f "./$sname" ]; then
+  echo "mkpy: cannot create script ‘$sname’: File exists"
+  exit 1
+fi
+
+cat<<EOF>$sname
+#!/usr/bin/env python3
+"""insert docstring here"""
+
+def main():
+    raise NotImplementedError()
+
+if __name__ == "__main__":
+    main()
+
+EOF
+
+# make new file executable
+chmod +x $sname

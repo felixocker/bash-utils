@@ -4,6 +4,8 @@ miscellaneous bash utilities
 ## contents
 * mkscript
   * description: create template for a bash script
+* mkpy
+  * description: create template for a python script
 * texbuild
   * description: build pdf from latex and bibtex files
   * requirements/ compatible with
