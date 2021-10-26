@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Check python script using mypy and pylint
+# Usage: bash checkpy filename
+
+# increase max line length
+linelength=140
+# ignore snake case naming style (C0103) and
+# lazy % formatting in logging functions (W1203)
+ignore="C0103,W1203"
+
+# ensure that name is not empty
+if [ -z "$1" ]; then
+  echo "checkpy: missing filename"
+  exit 1
+fi
+
+# check if mypy and pylint are available, try to install if not
+for pyprog in mypy pylint; do
+  if [[ ! $(pip freeze | grep "$pyprog") ]]; then
+    echo "checkpy: "$pyprog" not available - trying to install"
+    pip install "$pyprog"
+  fi
+done
+
+# run checks
+mypy "$1"
+pylint --max-line-length="$linelength" --disable="$ignore" "$1"
+

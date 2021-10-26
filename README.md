@@ -2,17 +2,14 @@
 miscellaneous bash utilities
 
 ## contents
-* mkscript
-  * description: create template for a bash script
-* mkpy
-  * description: create template for a python script
-* texbuild
-  * description: build pdf from latex and bibtex files
-  * requirements/ compatible with
+* *mkscript*: create template for a bash script
+* *mkpy*: create template for a python script
+* *checkpy*: check python script using mypy and pylint
+* *texbuild*: build pdf from latex and bibtex files
+  * requirements/ compatible with:
     * pdflatex 3.14159265-2.6-1.40.19 (TeX Live 2018)
     * bibtex 0.99d (TeX Live 2018)
-* encrypt, decrypt
-  * description: encrypt and decrypt file using openssl, respectively
+* *encrypt*, *decrypt*: encrypt and decrypt file using openssl, respectively
 
 ## usage
 for global access, save bash files from *src/* in your *~/bin/* directory
