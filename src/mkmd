@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# create a template for a markdown file, a file extension is automatically appended
+# Usage: bash mkmd name
+
+sname="$1.md"
+
+# ensure that sname is not empty
+if [ -z "$sname" ]; then
+  echo "mkmd: Missing filename"
+  exit 1
+fi
+
+# ensure that no existing file is overwritten
+if [ -f "./$sname" ]; then
+  echo "mkmd: Cannot create file ‘$sname’: File exists"
+  exit 1
+fi
+
+cat<<EOF>$sname
+---
+title: "$1"
+author: "Felix Ocker"
+tags:
+  - $1
+geometry: margin=2cm
+output: pdf_document
+---
+
+# $1
+
+EOF

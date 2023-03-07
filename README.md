@@ -4,6 +4,7 @@ miscellaneous bash utilities
 ## contents
 * *mkscript*: create template for a bash script
 * *mkpy*: create template for a python script
+* *mkmd*: create a pandoc compatible markdown file, run `pandoc input.md -o output.pdf` to generate a PDF
 * *checkpy*: check python script using mypy and pylint
 * *texbuild*: build pdf from latex and bibtex files
   * requirements/ compatible with:
