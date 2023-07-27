@@ -16,7 +16,7 @@ miscellaneous bash utilities
 for global access, save bash files from *src/* in your *~/bin/* directory
 
 ## license
-GPL v3.0
+MIT
 
 ## contact
 Felix Ocker - [felix.ocker@googlemail.com](mailto:felix.ocker@googlemail.com)
