@@ -5,8 +5,8 @@
 
 sname="$1.md"
 
-# ensure that sname is not empty
-if [ -z "$sname" ]; then
+# ensure that the file name provided is not empty
+if [ -z "$1" ]; then
   echo "mkmd: Missing filename"
   exit 1
 fi

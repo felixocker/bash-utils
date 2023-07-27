@@ -5,15 +5,15 @@
 
 sname="$1.py"
 
-# ensure that sname is not empty
-if [ -z "$sname" ]; then
-  echo "mkpy: missing filename"
+# ensure that the file name provided is not empty
+if [ -z "$1" ]; then
+  echo "mkpy: Missing filename"
   exit 1
 fi
 
 # ensure that no existing file is overwritten
 if [ -f "./$sname" ]; then
-  echo "mkpy: cannot create script ‘$sname’: File exists"
+  echo "mkpy: Cannot create script ‘$sname’: File exists"
   exit 1
 fi
 
