@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# Generate a git commit message using llm
+# Adapted from Andrej Karpathy's gcm https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285
+# Uses the llm CLI util: https://github.com/simonw/llm
+# Usage: gcm
+
+# Set up Python venv with llm
+VENV_PATH=~/bin/bash-utils/.llmvenv
+if [ ! -d "$VENV_PATH" ]; then
+    echo "Setting up a Python venv with llm, this is only necessary once."
+    python -m venv $VENV_PATH
+    source $VENV_PATH/bin/activate
+    pip install llm
+    echo "Initial setup complete."
+else
+    source $VENV_PATH/bin/activate
+fi
+
+generate_commit_message() {
+    llm "
+Your job is to create a single-sentence git commit message.
+
+Below is a diff of all staged changes, coming from the command:
+\`\`\`
+git diff --cached
+\`\`\`
+
+$(git diff --cached)
+
+Please summarize these changes in a concise, SINGLE-LINE commit message.
+Use conventional commits to distinguish between features, fixes, chores, docs, refactoring, tests, etc.
+Return ONLY the concise commit message."
+}
+
+read_input() {
+    if [ -n "$ZSH_VERSION" ]; then
+        echo -n "$1"
+        read -r REPLY
+    else
+        read -p "$1" -r REPLY
+    fi
+}
+
+echo "Generating AI-powered commit message..."
+commit_message=$(generate_commit_message)
+
+while true; do
+    echo -e "\nProposed commit message:"
+    echo "$commit_message"
+
+    read_input "Do you want to (a)ccept, (e)dit, (r)egenerate, or (c)ancel? "
+    choice=$REPLY
+
+    case "$choice" in
+        a|A )
+            if git commit -m "$commit_message"; then
+                echo "Changes committed successfully!"
+                exit 0
+            else
+                echo "Commit failed. Please check your changes and try again."
+                exit 1
+            fi
+            ;;
+        e|E )
+            read_input "Enter your commit message: "
+            commit_message=$REPLY
+            if [ -n "$commit_message" ] && git commit -m "$commit_message"; then
+                echo "Changes committed successfully with your message!"
+                exit 0
+            else
+                echo "Commit failed. Please check your message and try again."
+                exit 1
+            fi
+            ;;
+        r|R )
+            echo "Regenerating commit message..."
+            commit_message=$(generate_commit_message)
+            ;;
+        c|C )
+            echo "Commit cancelled."
+            exit 1
+            ;;
+        * )
+            echo "Invalid choice. Please try again."
+            ;;
+    esac
+done
